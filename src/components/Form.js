@@ -16,19 +16,35 @@ class Form extends Component {
     ...DEFAULT_STATE
   }
 
-  handleSubmit() {
+  handleSubmit=(event)=> {
     event.preventDefault()
     document.getElementById("order-form").reset()
-    this.props.addOrder(this.state)
+    console.log(this.state)
+    const orderData = Object.assign({},this.state)
+    this.props.addOrder(orderData)
     this.setState({
       ...DEFAULT_STATE
     })
   }
 
-  handleChange() {
+  // componentDidUpdate(prevProps, prevState){
+  //   console.log(prevProps.orderId)
+  //   console.log(this.props.orderId)
+  //   if (prevProps.orderId!=this.props.orderId) {
+  //     this.setState({
+  //       ...DEFAULT_STATE
+  //     })
+  //   }
+  // }
+
+  handleChange=(event) =>{
+    const that = this
+    console.log('about to update form')
     const itemType = event.target.name
     const item = event.target.value
-
+    debugger
+    // const that = this
+    // debugger
     !this.state[`${itemType}`].includes(item) ?
       this.setState({
         [itemType]: this.state[`${itemType}`].concat(item)
@@ -39,6 +55,8 @@ class Form extends Component {
           ingr => ingr !== item
         )
       })
+
+    console.log(this.state);
   }
 
   render() {
@@ -46,13 +64,13 @@ class Form extends Component {
       <div className="ui raised container segment">
         <h1 className="ui block header">Order Form</h1>
         <form className="ui form" id="order-form" onSubmit={this.handleSubmit}>
-          <ProteinForm handleOnChange={this.handleChange} />
+          <ProteinForm handleChange={this.handleChange} />
 
-          <FillingForm handleOnChange={this.handleChange} />
+          <FillingForm handleChange={this.handleChange} />
 
-          <ToppingForm handleOnChange={this.handleChange} />
+          <ToppingForm handleChange={this.handleChange} />
 
-          <SideForm handleOnChange={this.handleChange} />
+          <SideForm handleChange={this.handleChange} />
 
           <br />
 
